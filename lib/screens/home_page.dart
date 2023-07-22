@@ -37,15 +37,13 @@ class _HomePageState extends State<HomePage> {
               ? Column(
                   children: [
                     CustomAppBar(
-                      onRefreshPressd: () =>
-                          BlocProvider.of<GetEmployeeListFromApiBloc>(context)
-                              .add(GetEmployeeListFromApi()),
+                      onRefreshPressd: () => BlocProvider.of<GetEmployeeListFromApiBloc>(context)
+        .add(GetEmployeeListFromApi()),
                     ), //App Bar
                     BlocBuilder<GetEmployeeListFromLocalStorageBloc,
                         GetEmployeeListFromLocalStorageState>(
                       builder: (context, state) {
-                        if (state is EmployeeListFromLocalStorageLoaded &&
-                            state.employeeList.length > 0) {
+                        if (state is EmployeeListFromLocalStorageLoaded && state.employeeList.length>0) {
                           BlocProvider.of<ShowDetailsBlocBloc>(context)
                               .add(OnTap(details: state.employeeList[0]));
                         }
@@ -53,29 +51,19 @@ class _HomePageState extends State<HomePage> {
                             ? Container(
                                 height: 160,
                                 width: MediaQuery.of(context).size.width,
-                                child: state.employeeList.length == 0
-                                    ? Center(
-                                        child: Text(
-                                          'Employees Not Found',
-                                          style:
-                                              GoogleFonts.poppins(fontSize: 20),
-                                        ),
-                                      )
-                                    : ListView.builder(
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: state.employeeList.length,
-                                        itemBuilder: (context, index) {
-                                          var details =
-                                              state.employeeList[index];
-                                          return TabView(
-                                            details: details,
-                                            onTap: () => BlocProvider.of<
-                                                        ShowDetailsBlocBloc>(
-                                                    context)
-                                                .add(OnTap(details: details)),
-                                          );
-                                        }),
+                                child: state.employeeList.length==0 ?Center(child: Text('Employees Not Found', style: GoogleFonts.poppins(fontSize:20),),):ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state.employeeList.length,
+                                    itemBuilder: (context, index) {
+                                      var details = state.employeeList[index];
+                                      return TabView(
+                                        details: details,
+                                        onTap: () => BlocProvider.of<
+                                                ShowDetailsBlocBloc>(context)
+                                            .add(OnTap(details: details)),
+                                      );
+                                    }),
                               )
                             : state is EmployeeListFromLocalStorageError
                                 ? Center(
